@@ -4,7 +4,7 @@ from random import *
 from django.core.mail import send_mail
 from .utils import *
 import re
-
+# added comment
 
 # Create your views here.
 def index(request):
