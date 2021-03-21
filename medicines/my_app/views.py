@@ -4,9 +4,7 @@ from random import *
 from django.core.mail import send_mail
 from .utils import *
 import re
-# added comment
 
-# Create your views here.
 def index(request):
     data=tbl_Medicine.objects.all()
     return render (request,'my_app/index.html',{'data':data})
@@ -35,7 +33,6 @@ def registerpatient(request):
 
 def register_user(request):
     role=request.POST['role']
-    print("-------------> role",role)
     try:
         if role=="doctor":
             email=request.POST['email']
@@ -49,14 +46,6 @@ def register_user(request):
             passcheck=bool(re.search(r'[A-z][a-z]*',password))
 
             if passcheck:
-                print("--------------->",email)
-                print("--------------->",firstname)
-                print("--------------->",lastname)
-                print("--------------->",password)
-                print("--------------->",cnfpassword)
-                print("--------------->",gender)
-                print("--------------->",mobile)
-
                 #user_check=User.objects.get(email=email)
 
                 # if user_check:
@@ -67,7 +56,6 @@ def register_user(request):
                     uid=User.objects.create(email=email,password=password,role=role)
                     d_id=Doctor.objects.create(user_id=uid,firstname=firstname,lastname=lastname,gender=gender,mobile=mobile)
                     subject="confermation mail"
-                    print("====================================>email")
                     send_mail(subject,"welcome to Medico-Experts","info.medicoexperts007@gmail.com",[email])
                     msg="Registration successfully"
                     return render(request,'my_app/doctor_register.html',{'msg':msg},{'email':email})
@@ -88,23 +76,12 @@ def register_user(request):
             cnfpassword=request.POST['cnfpassword']
             gender=request.POST['gender']
             birthdate=request.POST['birthdate']
-            print("--------------->",email)
-            print("--------------->",firstname)
-            print("--------------->",lastname)
-            print("--------------->",password)
-            print("--------------->",cnfpassword)
-            print("--------------->",gender)
-            print("--------------->",birthdate)
             passcheck=bool(re.search(r'[A-z][a-z]*',password))
 
             if passcheck:
             #  ucheck=User.objects.get(email=email)
                 if password==cnfpassword:
                     uid=User.objects.create(email=email,password=password,role=role)
-                    print("---------------->role",role)
-                    print("---------------->email",email)
-                    print("---------------->password",password)
-                        
                     p_id=Patient.objects.create(user_id=uid,firstname=firstname,lastname=lastname,gender=gender,birthdate=birthdate)
                     subject="confermation mail"
                     send_mail(subject,"welcome to Medico-Experts","info.medicoexperts007@gmail.com",[email])
@@ -159,7 +136,6 @@ def login_evalute(request):
                 
                 doctor = Doctor.objects.filter(user_id=user[0])
                 did=Doctor.objects.get(user_id=user[0])
-                print("------------------------",did)
                 request.session['email'] = user[0].email
                 request.session['firstname'] = doctor[0].firstname
                 request.session['lastname'] = doctor[0].lastname
@@ -212,7 +188,6 @@ def send_otp(request):
         uid.otp=otp
         uid.save()  #update
         subject="OTP Verification"
-        print("=======================",otp)
         sendmail(subject,"mail_templates",email,{'otp':otp})
         return render(request,"my_app/reset_password.html",{'email':email})
     else:
@@ -225,7 +200,6 @@ def resetpassword(request):
     uid=User.objects.get(email=email)
     if uid:
         if uid.email==email and str(uid.otp)==otp:
-            print("-------------->",uid.otp)
             uid.password=password
             uid.save()
             return render(request,'my_app/main_login.html')
@@ -243,7 +217,6 @@ def all_medicines(request):
 
 def medicines_desc(request):
     medi_id=request.POST['medicineid']
-    print("====================================",medi_id)
     data=tbl_Medicine.objects.get(id=medi_id)
    
     print("===========================",data)
@@ -266,5 +239,4 @@ def Adhlist(request):
 
 def filter(request,name):
     obj=tbl_Medicine.objects.filter(medicine_type=name)
-    print("==========================",obj)
     return render(request,'my_app/allmedicines.html',{'obj':obj})
