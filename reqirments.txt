@@ -1,0 +1,5 @@
+asgiref==3.3.1
+Django==3.1.7
+mysqlclient @ file:///C:/GITHUB_PROJECT/Medico-expert/medicines/mysqlclient-1.4.4-cp37-cp37m-win32.whl
+pytz==2021.1
+sqlparse==0.4.1

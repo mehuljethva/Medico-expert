@@ -1,0 +1,12 @@
+*.log
+
+/__pycache__/
+*.pyc
+.history
+venv
+medicines/doctorapp/__pycache__/
+medicines/medicines/__pycache__/
+# .gitignore
+.vscode/settings.json
+
+
